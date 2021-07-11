@@ -51,14 +51,22 @@ func (r *mutationResolver) RefreshToken(ctx context.Context, input model.Refresh
 
 func (r *queryResolver) Links(ctx context.Context) ([]*model.Link, error) {
 	// panic(fmt.Errorf("not implemented"))
+	mysqldal := dal.MySQLDAL{
+		SqlDB: config.GetSqlDB(),
+	}
 	var links []*model.Link
-	dummyLink := model.Link{
-		Title:   "our dummy link",
-		Address: "https://address.org",
-		User:    &model.User{Name: "admin"},
+	linksData, err := mysqldal.GetLinks()
+	if err != nil {
+		return nil, err
 	}
 
-	links = append(links, &dummyLink)
+	for _, link := range linksData {
+		links = append(links, &model.Link{
+			ID:      link.ID,
+			Title:   link.Title,
+			Address: link.Address,
+		})
+	}
 	return links, nil
 }
 
