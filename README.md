@@ -1,5 +1,6 @@
 ## Example queries
 
+```
 mutation {
   createLink(input:{title: "new link", address:"http://address.org"}) {
     title,
@@ -7,8 +8,9 @@ mutation {
     id
   }
 }
+```
 
-
+```
 query{
   links{
     id
@@ -16,3 +18,4 @@ query{
     address
   }
 }
+```
